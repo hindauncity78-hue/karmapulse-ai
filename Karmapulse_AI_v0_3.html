@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#17152f">
+<title>Karmapulse AI v0.3</title>
+<style>
+:root{--bg:#0e1020;--panel:#191c32;--panel2:#232742;--ink:#f7f7ff;--muted:#b7bdd8;--accent:#a78bfa;--accent2:#5eead4}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(160deg,#111329,#17152f 55%,#0b2630);color:var(--ink);font:16px system-ui,-apple-system,"Noto Sans Devanagari",sans-serif}
+header{padding:24px 18px 18px;max-width:850px;margin:auto}h1{margin:0;font-size:29px;letter-spacing:.2px}header p{color:var(--muted);margin:8px 0 0;line-height:1.5}
+main{max-width:850px;margin:auto;padding:0 14px 35px}.tabs{display:flex;gap:8px;overflow:auto;margin:4px 0 16px}.tab{border:1px solid #444966;border-radius:12px;background:#1b1e35;color:var(--ink);padding:11px 14px;white-space:nowrap;font-weight:650}.tab.active{background:var(--accent);color:#17152f;border-color:var(--accent)}
+.panel{background:rgba(25,28,50,.96);border:1px solid #343955;border-radius:18px;padding:17px;margin-bottom:14px;box-shadow:0 12px 30px #0002}.hidden{display:none}label{display:block;font-weight:650;margin:13px 0 6px}input,textarea,select{width:100%;padding:12px;border:1px solid #464c6e;background:#101328;color:var(--ink);border-radius:10px;font:inherit}textarea{min-height:95px;resize:vertical}.btn{border:0;border-radius:11px;padding:12px 15px;background:var(--accent);color:#17152f;font-weight:750;font:inherit;cursor:pointer;margin-top:12px}.btn.secondary{background:#303653;color:var(--ink);border:1px solid #505778}.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}.poster{min-height:270px;border-radius:16px;padding:24px;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;background:radial-gradient(circle at top,#52338c,#1a1c3a 65%,#102e39);border:2px solid #f5d58b;overflow-wrap:anywhere}.poster .eyebrow{color:#f5d58b;font-size:13px;letter-spacing:2px}.poster h2{font-size:clamp(24px,7vw,40px);margin:12px 0}.poster .detail{white-space:pre-wrap;color:#fff0c8;line-height:1.6}.poster .foot{margin-top:18px;color:#d8fff8;font-size:13px}.result{white-space:pre-wrap;background:#101328;border:1px solid #343955;padding:14px;border-radius:12px;line-height:1.6;overflow-wrap:anywhere}.small{font-size:13px;color:var(--muted);line-height:1.5}.status{color:var(--accent2);min-height:22px;margin-top:8px}.previewimg{max-width:100%;max-height:240px;display:block;margin:12px auto;border-radius:12px}.pill{display:inline-block;padding:4px 8px;border-radius:20px;background:#27394a;color:#a7fff0;font-size:12px;margin-bottom:10px}
+@media(max-width:520px){.row{grid-template-columns:1fr}h1{font-size:25px}.panel{padding:14px}}
+</style>
+</head>
+<body>
+<header>
+  <span class="pill">FREE STARTER • v0.3</span>
+  <h1>⚡ Karmapulse AI</h1>
+  <p>पोस्टर तैयार करें, वीडियो का आइडिया बनाएं और अपनी फोटो देखें — सीधे मोबाइल ब्राउज़र में। अभी किसी अकाउंट या API key की जरूरत नहीं।</p>
+</header>
+<main>
+  <nav class="tabs" aria-label="मुख्य सुविधाएँ">
+    <button class="tab active" data-tab="poster">🎨 पोस्टर बनाओ</button>
+    <button class="tab" data-tab="video">🎬 वीडियो आइडिया</button>
+    <button class="tab" data-tab="photo">🖼️ फोटो टूल</button>
+  </nav>
+
+  <section id="poster" class="panel">
+    <h2>अपना प्रचार पोस्टर बनाएं</h2>
+    <p class="small">जानकारी भरें। नीचे डिजाइन तुरंत बदलेगा। फिर PNG इमेज सेव करें।</p>
+    <label for="ptitle">मुख्य शीर्षक</label><input id="ptitle" value="आपके बिजनेस का नाम">
+    <label for="psub">ऑफर / संदेश</label><textarea id="psub">आज ही आइए और खास ऑफर का लाभ उठाइए!</textarea>
+    <div class="row">
+      <div><label for="pcontact">फोन / संपर्क</label><input id="pcontact" placeholder="अपना संपर्क लिखें"></div>
+      <div><label for="pcolor">डिजाइन रंग</label><select id="pcolor"><option value="purple">बैंगनी और सुनहरा</option><option value="red">लाल और सुनहरा</option><option value="green">हरा और क्रीम</option><option value="blue">नीला और चांदी</option></select></div>
+    </div>
+    <label for="pfoot">पता / आयोजक</label><input id="pfoot" placeholder="पता या आयोजक का नाम">
+    <div style="margin-top:16px" id="posterPreview" class="poster">
+      <div class="eyebrow">आपके लिए खास</div><h2 id="outTitle">आपके बिजनेस का नाम</h2><div class="detail" id="outSub">आज ही आइए और खास ऑफर का लाभ उठाइए!</div><div class="foot" id="outFoot"></div><div id="outContact" style="margin-top:8px"></div>
+    </div>
+    <button class="btn" id="downloadPoster">⬇️ पोस्टर PNG सेव करें</button>
+    <div class="status" id="posterStatus" aria-live="polite"></div>
+  </section>
+
+  <section id="video" class="panel hidden">
+    <h2>वीडियो बनाने का आइडिया</h2>
+    <p class="small">यह टूल आपकी जानकारी से वीडियो बनाने के लिए तैयार prompt लिखता है। यह अभी अपने आप AI वीडियो रेंडर नहीं करता।</p>
+    <label for="vtopic">वीडियो किस बारे में है?</label><textarea id="vtopic" placeholder="जैसे: मेरी मिठाई की दुकान का दिवाली ऑफर"></textarea>
+    <div class="row">
+      <div><label for="vstyle">वीडियो शैली</label><select id="vstyle"><option>3D कार्टून</option><option>रियलिस्टिक विज्ञापन</option><option>त्योहार का सिनेमैटिक वीडियो</option><option>प्रोडक्ट शोकेस</option><option>शैक्षिक कहानी</option></select></div>
+      <div><label for="vduration">अवधि</label><select id="vduration"><option>15 सेकंड</option><option>30 सेकंड</option><option>45 सेकंड</option><option>60 सेकंड</option></select></div>
+    </div>
+    <label for="vlanguage">भाषा</label><select id="vlanguage"><option>हिंदी</option><option>हिंग्लिश</option><option>बिना संवाद, सिर्फ संगीत</option></select>
+    <button class="btn" id="makePrompt">✨ वीडियो prompt बनाएं</button>
+    <div id="promptWrap" class="hidden"><label>आपका तैयार prompt</label><div id="vresult" class="result"></div><button class="btn secondary" id="copyPrompt">कॉपी करें</button><div class="status" id="copyStatus" aria-live="polite"></div></div>
+  </section>
+
+  <section id="photo" class="panel hidden">
+    <h2>फोटो देखें</h2>
+    <p class="small">अपने फोन से एक फोटो चुनें। फोटो इस पेज में ही दिखाई जाएगी; इसे किसी सर्वर पर अपलोड नहीं किया जाता।</p>
+    <label for="photoFile">फोटो चुनें</label><input id="photoFile" type="file" accept="image/*">
+    <img id="photoPreview" class="previewimg hidden" alt="आपकी चुनी हुई फोटो">
+    <div class="status" id="photoStatus" aria-live="polite"></div>
+    <button class="btn secondary" id="clearPhoto">फोटो हटाएं</button>
+  </section>
+  <section class="panel">
+    <h3>अभी इस वर्ज़न में क्या है?</h3>
+    <p>✅ पोस्टर डिजाइन और PNG डाउनलोड<br>✅ वीडियो prompt तैयार करना और कॉपी करना<br>✅ फोन से फोटो चुनकर देखना</p>
+    <p class="small">अभी असली AI text-to-video/photo-to-video, लॉगिन, क्लाउड सेविंग और भुगतान शामिल नहीं हैं। इन्हें जोड़ने से पहले मुफ्त सेवाओं की उपलब्धता और सीमाएँ जांचनी होंगी।</p>
+  </section>
+</main>
+<script>
+const $=id=>document.getElementById(id);
+document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>{
+ document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x===b));
+ document.querySelectorAll('main section[id]').forEach(s=>s.classList.toggle('hidden',s.id!==b.dataset.tab));
+}));
+function updatePoster(){
+ $('outTitle').textContent=$('ptitle').value||'आपके बिजनेस का नाम';
+ $('outSub').textContent=$('psub').value||'';
+ $('outFoot').textContent=$('pfoot').value||'';
+ $('outContact').textContent=$('pcontact').value||'';
+ const themes={
+  purple:'radial-gradient(circle at top,#52338c,#1a1c3a 65%,#102e39)',
+  red:'radial-gradient(circle at top,#9e263d,#411a35 65%,#20152c)',
+  green:'radial-gradient(circle at top,#286b51,#173e3b 65%,#102b2a)',
+  blue:'radial-gradient(circle at top,#345d9b,#1b2d53 65%,#111a35)'
+ };
+ $('posterPreview').style.background=themes[$('pcolor').value];
+}
+['ptitle','psub','pcontact','pfoot','pcolor'].forEach(id=>$(id).addEventListener('input',updatePoster));
+$('downloadPoster').addEventListener('click',()=>{
+ const title=$('ptitle').value||'आपके बिजनेस का नाम', sub=$('psub').value||'', foot=$('pfoot').value||'', contact=$('pcontact').value||'';
+ const c=document.createElement('canvas'); c.width=1080;c.height=1350;const x=c.getContext('2d');
+ const colors={purple:['#52338c','#101e30'],red:['#9e263d','#20152c'],green:['#286b51','#102b2a'],blue:['#345d9b','#111a35']}[$('pcolor').value];
+ const g=x.createLinearGradient(0,0,1080,1350);g.addColorStop(0,colors[0]);g.addColorStop(1,colors[1]);x.fillStyle=g;x.fillRect(0,0,1080,1350);
+ x.strokeStyle='#f5d58b';x.lineWidth=10;x.strokeRect(35,35,1010,1280);
+ x.textAlign='center';x.fillStyle='#f5d58b';x.font='bold 32px sans-serif';x.fillText('आपके लिए खास',540,250);
+ function wrap(text,maxWidth,fontSize,lineHeight,startY,color='#ffffff',weight='bold'){
+   x.fillStyle=color;x.font=weight+' '+fontSize+'px sans-serif';let words=text.split(/\s+/),line='',lines=[];
+   words.forEach(w=>{let test=line?line+' '+w:w;if(x.measureText(test).width>maxWidth&&line){lines.push(line);line=w}else line=test});if(line)lines.push(line);
+   let y=startY;lines.slice(0,6).forEach(l=>{x.fillText(l,540,y);y+=lineHeight});return y;
+ }
+ let y=wrap(title,900,64,82,440,'#ffffff');
+ y+=35;y=wrap(sub,850,38,60,y,'#fff0c8','normal');
+ if(foot){y+=80;wrap(foot,850,30,44,y,'#d8fff8','normal')}
+ if(contact){x.fillStyle='#ffffff';x.font='bold 30px sans-serif';x.fillText(contact,540,1190)}
+ x.fillStyle='#d8fff8';x.font='24px sans-serif';x.fillText('Karmapulse AI',540,1260);
+ const a=document.createElement('a');a.download='karmapulse-poster.png';a.href=c.toDataURL('image/png');a.click();$('posterStatus').textContent='पोस्टर सेव करने की कोशिश की गई। डाउनलोड फोल्डर देखें।';
+});
+$('makePrompt').addEventListener('click',()=>{
+ const topic=$('vtopic').value.trim();if(!topic){$('vtopic').focus();alert('पहले वीडियो का विषय लिखें।');return}
+ const prompt=`${topic}\n\n${$('vduration').value} का ${$('vstyle').value} वीडियो बनाएं। भाषा: ${$('vlanguage').value}। मोबाइल स्क्रीन के लिए 9:16 vertical format, शुरुआत में ध्यान खींचने वाला दृश्य, साफ और सुंदर composition, smooth scene transitions, readable text, अच्छी lighting और साफ audio रखें। मुख्य विषय एक जैसा दिखे और अंत में आकर्षक closing frame हो। कोई गलत spelling या अनचाहा watermark न हो।`;
+ $('vresult').textContent=prompt;$('promptWrap').classList.remove('hidden');$('copyStatus').textContent='';
+});
+$('copyPrompt').addEventListener('click',async()=>{
+ const text=$('vresult').textContent;
+ try{await navigator.clipboard.writeText(text);$('copyStatus').textContent='Prompt कॉपी हो गया।'}
+ catch(e){const r=document.createElement('textarea');r.value=text;document.body.appendChild(r);r.select();try{document.execCommand('copy');$('copyStatus').textContent='Prompt कॉपी करने की कोशिश की गई।'}catch(_){$('copyStatus').textContent='Prompt को दबाकर चुनें और कॉपी करें।'}r.remove()}
+});
+let photoURL=null;
+$('photoFile').addEventListener('change',()=>{
+ const f=$('photoFile').files[0];if(!f)return;
+ if(photoURL)URL.revokeObjectURL(photoURL);photoURL=URL.createObjectURL(f);
+ $('photoPreview').src=photoURL;$('photoPreview').classList.remove('hidden');$('photoStatus').textContent='फोटो इस डिवाइस पर दिखाई जा रही है।';
+});
+$('clearPhoto').addEventListener('click',()=>{$('photoFile').value='';$('photoPreview').removeAttribute('src');$('photoPreview').classList.add('hidden');$('photoStatus').textContent='फोटो हटा दी गई।';if(photoURL)URL.revokeObjectURL(photoURL);photoURL=null});
+updatePoster();
+</script>
+</body>
+</html>
