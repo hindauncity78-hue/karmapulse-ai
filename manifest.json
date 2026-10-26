@@ -1,8 +1,7 @@
 {
-  "id": "./",
   "name": "Karmapulse AI",
   "short_name": "Karmapulse",
-  "description": "AI video and poster creation app",
+  "description": "AI poster and video creation app",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
