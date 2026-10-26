@@ -1,0 +1,11 @@
+{
+  "id": "./",
+  "name": "Karmapulse AI",
+  "short_name": "Karmapulse",
+  "description": "AI video and poster creation app",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#171520",
+  "theme_color": "#171520"
+}
